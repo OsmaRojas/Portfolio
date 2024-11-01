@@ -1,0 +1,53 @@
+<!-- Navbar -->
+<nav  *ngIf="!isMenuOpen" class="bg-orange-400 p-3 rounded-full w-full max-w-auto shadow-xl transition-shadow hover:shadow-2xl ease-in-out">
+  <div class="flex justify-between items-center">
+    <!-- Botón de hamburguesa para móvil, visible solo en pantallas pequeñas -->
+    <button  (click)="toggleMenu()" class="md:hidden text-white focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Enlaces de navegación: visibles en pantallas grandes, escondidos en móviles hasta que se active el menú -->
+    <div class="hidden md:flex space-x-6 items-center px-5">
+      <ng-container *ngFor="let route of appRoutes">
+        <ng-container *ngIf="route.fragments; else routeLink">
+          <a *ngFor="let frag of route.fragments" [routerLink]="route.path" [fragment]="frag.fragment"
+            [ngClass]="{ 'text-white': activeRoute(route.path!, frag.fragment!), 'text-gray-300': !activeRoute(route.path!, frag.fragment!) }"
+            class="hover:text-white transition-colors">
+            {{ frag.title }}
+          </a>
+        </ng-container>
+        <ng-template #routeLink>
+          <a [routerLink]="route.path"
+            [ngClass]="{ 'text-white': activeRoute(route.path!), 'text-gray-300': !activeRoute(route.path!) }"
+            class="hover:text-white transition-colors">
+            {{ route.title }}
+          </a>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+
+<!-- Menú Toggle para Móvil -->
+<div *ngIf="isMenuOpen" class="md:hidden flex flex-col space-y-4 text-base items-center bg-orange-500 bg-opacity-90 px-6 py-5 rounded mt-3">
+  <ng-container *ngFor="let route of appRoutes">
+    <ng-container *ngIf="route.fragments; else routeLink">
+      <a *ngFor="let frag of route.fragments" [routerLink]="route.path" [fragment]="frag.fragment"
+        [ngClass]="{ 'text-white': activeRoute(route.path!, frag.fragment!), 'text-gray-300': !activeRoute(route.path!, frag.fragment!) }"
+        class="hover:text-white transition-colors"
+        (click)="toggleMenu()">
+        {{ frag.title }}
+      </a>
+    </ng-container>
+    <ng-template #routeLink>
+      <a [routerLink]="route.path"
+        [ngClass]="{ 'text-white': activeRoute(route.path!), 'text-gray-300': !activeRoute(route.path!) }"
+        class="hover:text-white transition-colors"
+        (click)="toggleMenu()">
+        {{ route.title }}
+      </a>
+    </ng-template>
+  </ng-container>
+</div>

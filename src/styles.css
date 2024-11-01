@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  scroll-behavior: smooth;
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: .15em solid orange;
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite 1s; /* cursor parpadea indefinidamente */
+  max-width: max-content;
+}
+
+/* Animación del efecto de escritura */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Efecto de parpadeo continuo del cursor */
+@keyframes blink-caret {
+  0%, 100% {
+    height: 0%;
+    border-color: transparent; }
+  50% {
+    height: 100%;
+    border-color: orange; }
+}
+
+.modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.bg-opacity-50 {
+  background-color: rgba(0, 0, 0, 0.5);
+}

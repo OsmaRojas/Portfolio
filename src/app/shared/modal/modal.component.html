@@ -1,0 +1,30 @@
+<!-- Modal -->
+<div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+  <div class="bg-white w-full max-w-3xl rounded-lg shadow-lg p-6 relative overflow-y-auto max-h-[80vh]">
+
+    <!-- Botón de Cerrar -->
+    <button (click)="onClose()" title="close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6" >
+        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+      </svg>
+
+
+    </button>
+
+    <!-- Título del Modal -->
+    <h2 class="text-2xl font-semibold text-orange-500 mb-4">{{ title }}</h2>
+
+    <!-- Lista de Contenido -->
+    <div class="grid grid-cols-1 gap-4">
+      <!-- Card de Proyecto Adicional (iteramos sobre el contenido) -->
+      @for( item of content; track $index ){
+        <div class="p-4 bg-orange-100 rounded-lg shadow-md">
+          <h3 class="text-lg font-bold text-gray-600">{{ item.title }}</h3>
+          <p class="text-sm text-gray-600 mt-1">{{ item.description }}</p>
+          <span class="text-xs text-gray-500">Tecnologías: {{ item.technologies.join(', ') }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

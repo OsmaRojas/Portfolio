@@ -1,0 +1,54 @@
+<section id="projects" class="bg-gradient-to-b from-black to-gray-400 px-6 sm:py-30 lg:px-8 py-10">
+  <div class="mx-auto max-w-2xl lg:max-w-7xl">
+    <!-- Título y introducción -->
+    <div
+      class="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+      <div class="lg:pr-4">
+        <div class="lg:max-w-lg">
+          <p class="text-base/7 inline-block font-semibold typewriter text-white">Proyectos</p>
+          <h1 class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-orange-500 sm:text-5xl">He participado en</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Proyectos -->
+    <div class="flex flex-wrap justify-center gap-3 py-5">
+      <!-- Card de Proyecto -->
+      @for (project of randomProjects; track $index) {
+      <div
+        class="flex justify-end h-[20rem] w-full max-w-[20rem] flex-col items-end overflow-hidden rounded-xl bg-white text-center text-gray-700 shadow-lg transition transform hover:-translate-y-1 hover:shadow-2xl hover:-rotate-3"
+        [ngStyle]="{ 'background-image': 'url(./assets/img-' + randomIndex[$index] + '.webp)' }">
+
+        <!-- Gradiente oscuro encima de la imagen de fondo -->
+        <div class="absolute inset-0 w-full h-full bg-gradient-to-t from-black to-transparent/50"></div>
+
+        <!-- Contenido centrado -->
+        <div class="p-5 z-10">
+          <h2 class="text-xl font-medium leading-tight tracking-normal text-white">
+            {{ project.title }}
+          </h2>
+          <p class="mb-4 text-sm text-gray-300">
+            {{ project.description }}
+          </p>
+          <strong class="text-xs text-gray-400 font-mono">{{ project.technologies.join(', ') }}</strong>
+        </div>
+      </div>
+      }
+    </div>
+
+
+    <!-- Botón para abrir el modal -->
+    <div class="mt-12 flex justify-center">
+      <button (click)="openModal()"
+        class="px-6 py-3 text-center bg-gray-800 text-white font-semibold rounded-full shadow-md hover:bg-gray-700 transition">
+        Ver Todos
+      </button>
+    </div>
+
+    <!-- Componente Modal -->
+    <shared-modal [isOpen]="isModalOpen" [title]="'Proyectos Adicionales'" [content]="additionalProjects"
+      (close)="closeModal()">
+    </shared-modal>
+
+  </div>
+</section>
