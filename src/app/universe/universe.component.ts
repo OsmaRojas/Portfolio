@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 import { PLANETS, PlanetMeta } from './planets.config';
 import { SpaceshipService } from './spaceship.service';
@@ -8,11 +8,14 @@ import { SpaceshipService } from './spaceship.service';
   templateUrl: './universe.component.html',
   styleUrls: ['./universe.component.scss']
 })
-export class UniverseComponent implements AfterViewInit {
+export class UniverseComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
+  private raycaster = new THREE.Raycaster();
+  private pointer = new THREE.Vector2();
+  private planets: THREE.Object3D[] = [];
 
   constructor(private ship: SpaceshipService) {}
 
@@ -56,7 +59,10 @@ export class UniverseComponent implements AfterViewInit {
       mesh.userData = meta;
       this.scene.add(mesh);
       this.ship.registerPlanet(meta, mesh);
+      this.planets.push(mesh);
     });
+
+    this.canvas.nativeElement.addEventListener('pointerdown', this.onPointerDown);
 
     const animate = () => {
       requestAnimationFrame(animate);
@@ -65,4 +71,19 @@ export class UniverseComponent implements AfterViewInit {
     };
     animate();
   }
+
+  ngOnDestroy() {
+    this.canvas.nativeElement.removeEventListener('pointerdown', this.onPointerDown);
+  }
+
+  private onPointerDown = (event: PointerEvent) => {
+    this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    this.raycaster.setFromCamera(this.pointer, this.camera);
+    const hits = this.raycaster.intersectObjects(this.planets);
+    if (hits.length) {
+      const meta = hits[0].object.userData as PlanetMeta;
+      this.ship.flyTo(meta.id);
+    }
+  };
 }
