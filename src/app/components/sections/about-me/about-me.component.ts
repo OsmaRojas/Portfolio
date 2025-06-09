@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SpaceshipService } from "../../universe/spaceship.service";
+import { SpaceshipService } from "../../../universe/spaceship.service";
 
 @Component({
   selector: 'section-about-me',
