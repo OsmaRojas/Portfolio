@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SpaceshipService } from "../../universe/spaceship.service";
 
 @Component({
   selector: 'section-projects',
@@ -8,7 +9,7 @@ export class ProjectsComponent {
 
   isModalOpen = false;
 
-  constructor() {}
+  constructor(public ship: SpaceshipService) {}
 
   additionalProjects = [
     {

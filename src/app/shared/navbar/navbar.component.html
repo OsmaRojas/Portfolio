@@ -12,9 +12,7 @@
     <div class="hidden md:flex space-x-6 items-center px-5">
       <ng-container *ngFor="let route of appRoutes">
         <ng-container *ngIf="route.fragments; else routeLink">
-          <a *ngFor="let frag of route.fragments" [routerLink]="route.path" [fragment]="frag.fragment"
-            [ngClass]="{ 'text-white': activeRoute(route.path!, frag.fragment!), 'text-gray-300': !activeRoute(route.path!, frag.fragment!) }"
-            class="hover:text-white transition-colors">
+          <a *ngFor="let frag of route.fragments" (click)="ship.flyTo(frag.fragment)" [ngClass]="{ 'text-white': ship.at(frag.fragment), 'text-gray-300': !ship.at(frag.fragment) }" class="hover:text-white transition-colors">
             {{ frag.title }}
           </a>
         </ng-container>
@@ -34,10 +32,7 @@
 <div *ngIf="isMenuOpen" class="md:hidden flex flex-col space-y-4 text-base items-center bg-orange-500 bg-opacity-90 px-6 py-5 rounded mt-3">
   <ng-container *ngFor="let route of appRoutes">
     <ng-container *ngIf="route.fragments; else routeLink">
-      <a *ngFor="let frag of route.fragments" [routerLink]="route.path" [fragment]="frag.fragment"
-        [ngClass]="{ 'text-white': activeRoute(route.path!, frag.fragment!), 'text-gray-300': !activeRoute(route.path!, frag.fragment!) }"
-        class="hover:text-white transition-colors"
-        (click)="toggleMenu()">
+      <a *ngFor="let frag of route.fragments" (click)="ship.flyTo(frag.fragment); toggleMenu()" [ngClass]="{ 'text-white': ship.at(frag.fragment), 'text-gray-300': !ship.at(frag.fragment) }" class="hover:text-white transition-colors">
         {{ frag.title }}
       </a>
     </ng-container>

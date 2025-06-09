@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SpaceshipService } from "../../universe/spaceship.service";
 
 @Component({
   selector: 'section-education',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EducationComponent implements OnInit {
 
-  constructor() { }
+  constructor(public ship: SpaceshipService) { }
 
   ngOnInit() {
   }

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SpaceshipService } from "../../universe/spaceship.service";
 
 @Component({
   selector: 'section-about-me',
@@ -11,7 +12,7 @@ export class AboutMeComponent implements OnInit, OnDestroy {
   intervalId: any;
   iam = this.about_me[Math.random() * this.about_me.length | 0];
 
-  constructor() {}
+  constructor(public ship: SpaceshipService) {}
 
   ngOnInit() {
     // this.intervalId = setInterval(() => {

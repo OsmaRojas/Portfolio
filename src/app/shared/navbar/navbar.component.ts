@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routes } from '../../app.routes';
+import { SpaceshipService } from "../../universe/spaceship.service";
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
@@ -14,7 +15,7 @@ export class NavbarComponent implements OnInit {
   isMenuOpen = false;
   appRoutes = routes.filter(route => route.title);
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, public ship: SpaceshipService) {}
 
   ngOnInit() {}
   // Función para verificar si la ruta y el fragmento están activos
