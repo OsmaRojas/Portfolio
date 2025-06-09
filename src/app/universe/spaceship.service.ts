@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import { filter } from 'rxjs';
 import { PlanetMeta } from './planets.config';
 
 @Injectable({ providedIn: 'root' })
@@ -12,13 +11,14 @@ export class SpaceshipService {
   private offset = new THREE.Vector3(0, 0, 5);
   private driftFn?: () => void;
   private current?: string;
+  private home = new THREE.Vector3(0, 0, 10);
 
-  constructor(private router: Router) {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => this.startDrift());
-  }
+  constructor(private router: Router) {}
 
   registerCamera(camera: THREE.PerspectiveCamera) {
     this.camera = camera;
+    this.camera.position.copy(this.home);
+    this.camera.lookAt(0, 0, 0);
     this.startDrift();
   }
 
@@ -42,6 +42,24 @@ export class SpaceshipService {
       this.current = id;
       this.router.navigateByUrl('/' + meta.route);
     }});
+  }
+
+  flyHome() {
+    if (!this.camera) { return; }
+    const target = this.home.clone();
+    this.stopDrift();
+    gsap.to(this.camera.position, {
+      duration: 2,
+      x: target.x,
+      y: target.y,
+      z: target.z,
+      onUpdate: () => this.camera!.lookAt(0, 0, 0),
+      onComplete: () => {
+        this.current = undefined;
+        this.startDrift();
+        this.router.navigateByUrl('/home');
+      }
+    });
   }
 
   update() {

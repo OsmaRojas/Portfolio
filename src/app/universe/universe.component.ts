@@ -26,6 +26,7 @@ export class UniverseComponent implements AfterViewInit, OnDestroy {
     this.canvas.nativeElement.style.position = 'fixed';
     this.canvas.nativeElement.style.inset = '0';
     this.canvas.nativeElement.style.zIndex = '0';
+    window.addEventListener('resize', this.onResize);
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -74,6 +75,7 @@ export class UniverseComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.canvas.nativeElement.removeEventListener('pointerdown', this.onPointerDown);
+    window.removeEventListener('resize', this.onResize);
   }
 
   private onPointerDown = (event: PointerEvent) => {
@@ -85,5 +87,11 @@ export class UniverseComponent implements AfterViewInit, OnDestroy {
       const meta = hits[0].object.userData as PlanetMeta;
       this.ship.flyTo(meta.id);
     }
+  };
+
+  private onResize = () => {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   };
 }
