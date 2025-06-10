@@ -1,4 +1,5 @@
-<section id="skills" class="bg-black px-6 sm:py-30 lg:px-8 rounded-t-3xl py-10">
+<section id="skills" class="overlay bg-black px-6 sm:py-30 lg:px-8 rounded-t-3xl py-10" *ngIf="ship.at('skills')">
+  <button (click)="ship.flyHome()" class="absolute right-4 top-4 z-30 bg-gray-800 text-white rounded-full px-2">X</button>
   <div class="mx-auto max-w-2xl lg:max-w-7xl">
     <!-- Título y introducción -->
     <div class="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
